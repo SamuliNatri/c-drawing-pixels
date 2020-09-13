@@ -76,7 +76,7 @@ wWinMain(HINSTANCE instance,
                           PAGE_READWRITE
                           );
     
-    u32* pixel = (u32 *)memory; 
+    u32 *pixel = (u32 *)memory; 
     
     for(int pixel_number = 0;
         pixel_number < width * height;
