@@ -1,9 +1,9 @@
 #include <windows.h>
 #include <stdint.h>
 
-#define i32 uint32_t
+#define u32 uint32_t
 
-int globalRunning = 1;
+int running = 1;
 int width = 0;
 int height = 0;
 
@@ -13,20 +13,23 @@ BITMAPINFO bitmap_info;
 LRESULT CALLBACK 
 WindowProc(HWND window, 
            UINT message, 
-           WPARAM wParam, 
-           LPARAM lParam)
+           WPARAM w_param, 
+           LPARAM l_param)
 {
     LRESULT result;
     switch(message)
     {
         case WM_CLOSE:
         {
-            globalRunning = 0;
+            running = 0;
         } break;
         
         default:
         {
-            result = DefWindowProc(window, message, wParam, lParam);
+            result = DefWindowProc(window,
+                                   message, 
+                                   w_param, 
+                                   l_param);
         } break;
     }
     
@@ -35,22 +38,22 @@ WindowProc(HWND window,
 
 int WINAPI 
 wWinMain(HINSTANCE instance, 
-         HINSTANCE prevInstance, 
-         PWSTR cmdLine, 
-         int cmdShow)
+         HINSTANCE prev_instance, 
+         PWSTR cmd_line, 
+         int cmd_show)
 {
     WNDCLASS window_class = {0};
     
-    const wchar_t CLASS_NAME[] = L"GameWindowClass";
+    wchar_t class_name[] = L"GameWindowClass";
     
     window_class.lpfnWndProc = WindowProc;
     window_class.hInstance = instance;
-    window_class.lpszClassName = CLASS_NAME;
+    window_class.lpszClassName = class_name;
     
     RegisterClass(&window_class);
     
     HWND window = CreateWindowEx(0,
-                                 CLASS_NAME,
+                                 class_name,
                                  L"Game",
                                  WS_OVERLAPPEDWINDOW|WS_VISIBLE,
                                  CW_USEDEFAULT,
@@ -73,7 +76,7 @@ wWinMain(HINSTANCE instance,
                           PAGE_READWRITE
                           );
     
-    i32* pixel = (i32 *)memory; 
+    u32* pixel = (u32 *)memory; 
     
     for(int pixel_number = 0;
         pixel_number < width * height;
@@ -82,9 +85,9 @@ wWinMain(HINSTANCE instance,
         *pixel++ = 0xFF0000;
     }
     
-    i32 red = 0xFF0000;
-    i32 green = 0x00FF00;
-    i32 blue = 0x0000FF;
+    u32 red = 0xFF0000;
+    u32 green = 0x00FF00;
+    u32 blue = 0x0000FF;
     
     /*
     *pixel = 0xFF0000;
@@ -100,7 +103,7 @@ wWinMain(HINSTANCE instance,
     
     HDC hdc = GetDC(window);
     
-    while(globalRunning)
+    while(running)
     {
         MSG message;
         while(PeekMessage(&message, window, 0, 0, PM_REMOVE))
