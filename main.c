@@ -67,8 +67,8 @@ wWinMain(HINSTANCE instance,
     
     RECT rect;
     GetClientRect(window, &rect);
-    int width = rect.right - rect.left;
-    int height = rect.bottom - rect.top;
+    width = rect.right - rect.left;
+    height = rect.bottom - rect.top;
     
     memory = VirtualAlloc(0,
                           width * height * 4,
