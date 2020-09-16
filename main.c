@@ -1,7 +1,7 @@
 #include <windows.h>
 #include <stdint.h>
 
-#define u32 uint32_t
+typedef uint32_t u32;
 
 int running = 1;
 int width = 0;
